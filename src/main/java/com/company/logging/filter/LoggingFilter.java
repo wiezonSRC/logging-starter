@@ -35,13 +35,13 @@ public class LoggingFilter extends OncePerRequestFilter {
     );
 
     @Value("${log.trace.level:PROD}")
-    private String levelConfig;
+    private String levelConfig="PROD";
 
     @Value("${log.slow.query.ms}")
-    private int queryMs;
+    private int queryMs=300;
 
     @Value("${log.slow.query.total.ms}")
-    private int queryTotalMs;
+    private int queryTotalMs=1000;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
