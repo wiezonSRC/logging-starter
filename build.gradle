@@ -49,3 +49,15 @@ dependencies {
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
 }
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
