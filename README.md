@@ -111,7 +111,7 @@ Starter는 로그를 **생성**만 하며, 로그의 **출력 정책(레벨/파�
 
 ```properties
 #default (true)
-log.trace.enabled=true 
+log.trace.enabled=true
 # PROD<DEBUG<TRACE | default (prod) 
 log.trace.level=PROD
 # 쿼리 하나당 걸린 시간 | default(300)
