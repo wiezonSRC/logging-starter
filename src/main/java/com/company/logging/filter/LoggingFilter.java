@@ -46,14 +46,12 @@ public class LoggingFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String levelConfig=properties.getTrace().getLevel().name();
+        TraceLevel level=properties.getTrace().getLevel();
         int queryMs=properties.getSlow().getQuery().getMs();
         int queryTotalMs=properties.getSlow().getQuery().getTotalMs();
 
         String traceId = UUID.randomUUID().toString();
         MDC.put("traceId", traceId);
-
-        TraceLevel level = TraceLevel.valueOf(levelConfig.toUpperCase());
         boolean forceTrace = "true".equalsIgnoreCase(request.getHeader("X-Debug-Trace")) || "true".equalsIgnoreCase(request.getParameter("trace"));
 
         TraceContextHolder.init(level, forceTrace);
@@ -219,7 +217,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         boolean isTextRequest = isTextContent(reqContentType);
         boolean isTextResponse = isTextContent(resContentType);
 
-        logger.debug("[API_DEBUG] ({}) uri={} method={} elapsed={}ms sqlCount={} sqlElapsed={}ms",
+        logger.info("[API_DEBUG] ({}) uri={} method={} elapsed={}ms sqlCount={} sqlElapsed={}ms",
                 MDC.get("traceId"),
                 req.getRequestURI(),
                 req.getMethod(),
@@ -230,7 +228,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         );
 
         if (isTextRequest) {
-            logger.debug("[API_DEBUG] [REQUEST] ({}) IFID {} [REQ_PARAM] {} [REQ_BODY] {}",
+            logger.info("[API_DEBUG] [REQUEST] ({}) IFID {} [REQ_PARAM] {} [REQ_BODY] {}",
                     MDC.get("traceId"),
                     req.getHeader("IFID"),
                     req.getParameterMap(),
@@ -240,7 +238,7 @@ public class LoggingFilter extends OncePerRequestFilter {
 
         for (SqlTrace sql : SqlTraceContextHolder.getAll()) {
             if (sql.getSql() != null) {
-                logger.debug("[API_DEBUG] [SQL] ({}) sqlId={} elapsed={}ms sqlParam={}",
+                logger.info("[API_DEBUG] [SQL] ({}) sqlId={} elapsed={}ms sqlParam={}",
                         MDC.get("traceId"),
                         sql.getSqlId(),
                         sql.getElapsed(),
@@ -250,7 +248,7 @@ public class LoggingFilter extends OncePerRequestFilter {
         }
 
         if (isTextResponse) {
-            logger.debug("[API_DEBUG] [RESPONSE] ({}) [RES_BODY] {}",
+            logger.info("[API_DEBUG] [RESPONSE] ({}) [RES_BODY] {}",
                     MDC.get("traceId"),
                     res.getBodyAsString()
             );
