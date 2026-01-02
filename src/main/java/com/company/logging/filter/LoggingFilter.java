@@ -1,5 +1,6 @@
 package com.company.logging.filter;
 
+import com.company.logging.config.LoggingProperties;
 import com.company.logging.sql.SqlTrace;
 import com.company.logging.sql.SqlTraceContext;
 import com.company.logging.sql.SqlTraceContextHolder;
@@ -27,26 +28,28 @@ import java.util.UUID;
 
 public class LoggingFilter extends OncePerRequestFilter {
 
+    private final LoggingProperties properties;
     private final Logger logger = LoggerFactory.getLogger("Log");
+
     private static final Set<String> ERROR_CODE_KEYS = Set.of(
             "resCode",
             "res_cd",
             "code"
     );
 
-    @Value("${log.trace.level:PROD}")
-    private String levelConfig="PROD";
-
-    @Value("${log.slow.query.ms}")
-    private int queryMs=300;
-
-    @Value("${log.slow.query.total.ms}")
-    private int queryTotalMs=1000;
+    public LoggingFilter(LoggingProperties properties){
+        this.properties = properties;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+        String levelConfig=properties.getTrace().getLevel().name();
+        int queryMs=properties.getSlow().getQuery().getMs();
+        int queryTotalMs=properties.getSlow().getQuery().getTotalMs();
+
         String traceId = UUID.randomUUID().toString();
         MDC.put("traceId", traceId);
 
