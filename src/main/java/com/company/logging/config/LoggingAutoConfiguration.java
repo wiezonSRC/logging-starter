@@ -12,24 +12,22 @@ import org.springframework.core.Ordered;
 @Configuration
 @ConditionalOnWebApplication
 @EnableConfigurationProperties(LoggingProperties.class)
-//log.trace.enabled=true
-@ConditionalOnProperty(
-        prefix = "log.trace",
-        name = "enabled",
-        havingValue = "true",
-        matchIfMissing = true
-)
 public class LoggingAutoConfiguration {
 
-    @Bean
-    public LoggingFilter loggingFilter(LoggingProperties properties){
-        return new LoggingFilter(properties);
-    }
 
+    //log.trace.enabled=true
     @Bean
-    public FilterRegistrationBean<LoggingFilter> loggingFilter(LoggingFilter loggingFilter) {
+    @ConditionalOnProperty(
+            prefix = "log.trace",
+            name = "enabled",
+            havingValue = "true",
+            matchIfMissing = true
+    )
+    public FilterRegistrationBean<LoggingFilter> loggingFilterRegistration(
+            LoggingProperties properties
+    ) {
         FilterRegistrationBean<LoggingFilter> bean = new FilterRegistrationBean<>();
-        bean.setFilter(loggingFilter);
+        bean.setFilter(new LoggingFilter(properties));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE + 10);
         bean.addUrlPatterns("/*");
         return bean;
