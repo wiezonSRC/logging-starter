@@ -39,7 +39,7 @@ dependencies {
     api 'com.fasterxml.jackson.core:jackson-databind'
 
     /* starter (logging-starter) */
-    compileOnly 'org.mybatis:mybatis:3.5.15'
+    compileOnly 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 
     /* ===== Optional ===== */
     compileOnly 'org.springframework.boot:spring-boot-starter-web'
