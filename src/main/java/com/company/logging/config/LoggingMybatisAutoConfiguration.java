@@ -1,7 +1,7 @@
 package com.company.logging.config;
 
 import com.company.logging.sql.SqlTraceInterceptor;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
                 "org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration"
         }
 )
-@AutoConfigureAfter(
+@AutoConfigureBefore(
         name = "org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration"
 )
 @ConditionalOnProperty(
@@ -25,8 +25,14 @@ import org.springframework.context.annotation.Configuration;
         matchIfMissing = true
 )
 public class LoggingMybatisAutoConfiguration{
+
+    static {
+        System.out.println(">>> LoggingMybatisAutoConfiguration LOADED");
+    }
+
     @Bean
     public SqlTraceInterceptor sqlTraceInterceptor() {
+        System.out.println(">>> SqlTraceInterceptor BEAN CREATED");
         return new SqlTraceInterceptor();
     }
 
