@@ -12,7 +12,7 @@ import org.springframework.core.Ordered;
 @Configuration
 @ConditionalOnWebApplication
 @EnableConfigurationProperties(LoggingProperties.class)
-public class LoggingAutoConfiguration {
+public class LoggingWebAutoConfiguration {
 
 
     //log.trace.enabled=true

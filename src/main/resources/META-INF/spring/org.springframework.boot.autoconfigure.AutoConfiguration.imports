@@ -1,1 +1,2 @@
-com.company.logging.config.LoggingAutoConfiguration
+com.company.logging.config.LoggingWebAutoConfiguration
+com.company.logging.config.LoggingMybatisAutoConfiguration
