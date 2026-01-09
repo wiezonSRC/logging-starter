@@ -1,7 +1,6 @@
 package com.company.logging.config;
 
 import com.company.logging.sql.SqlTraceInterceptor;
-import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
